@@ -1,2 +1,57 @@
 ## 2022-12-26
-git 연동 테스트23
+    1.로컬 Git 저장소 생성
+    2.Github 연동
+    3.Initial 업로드
+
+## 2022-12-28
+    1.Spring Security 적용
+        Package: config.security
+            src:  SecurityConfig.java
+                    - 시큐리티 설정 관련 클래스
+                  CustomAccessDeniedHandler.java
+                    - 시큐리티 권한 핸들링 클래스
+                  CustomAuthenticationEntryPoint.java
+                    - 시큐리티 인증 핸들링 클래스
+                  JwtTokenProvider.java
+                    - JWT 토큰 인증 관련 클래스(인증,검증,암호화)
+                  JwtAuthenticationFilter.java
+                    - JWT 토큰 인증 필터 클래스
+                 - ErrorCode.java
+                    - 인증 관련 에러 핸들링시 사용할 에러 Constant 정보
+
+
+     2. Spring Security 동작 Flow
+
+        1) 사용자 로그인시도
+            Request 로그인 URL 호출,
+
+            *** Spring이 Servlet 호출하기 전에 Filter를 먼저 동작후
+            Filter로 등록된 SecurityFilterChain의 Filter들이 실행이 되어야 하지만...
+            SecurityConfig(시큐리티설정)에 등록한 mvcMatchers("로그인 URL").permitAll() 로 인해 SecurityFilterChain을 통한 인증과정은 무시. ***
+
+        2)  인증 발급
+            로그인 URL 호출시, Request의 인증토큰이 유효한 검증하여 로그인여부 확인.
+            유효한 경우 -> 메인 페이지로 Redirect
+            유효하지 않은 경우 -> Request Parameter Id/pwd 를 조회
+                             -> 조회한 Id/pwd 기반으로 User 객체 생성후, Database의 User 테이블에 존재하는지 검증.
+                             -> 검증이 정상적으로 통과되면, 좀전에 생성한 User 객체로 Authenticaiton 인증 객체를 생성
+                             -> 인증 객체 기반으로 유효한 JWT 토큰을 생성
+
+         3) JWT 토큰 발급
+            인증을 통해 발급된 JWT 토큰을 클라이언트는 쿠키에 보관하여, 서버에 Request를 보낼때마다 동봉하여 전달함.
+
+         4) 인증 검증
+            클라이언트 -> 서버로 Request를 요청시 쿠키에 동봉된 JWT 토큰을 함께 보냄.
+
+            모든 Request URL 호출에 대해 Spring은 Servlet이 호출하기 전 Filter가 먼저 동작.
+            우리가 Filter로 등록한 SecurityConfig에 정의한 SecurityFilterChain이 실행되고, JwtAuthenticationFilter 메소드가 선동작하여 JWT 토큰 검증을 진행함.
+
+            검증이 정상적으로 통과된 경우 Request는 Spring에 의해 정상적으로 Servlet을 호출하여 서비스 호출하게 됨.
+            유효 토큰/만료된 토큰 등에 대한 검증이 이루어짐.
+
+            검증에 대한 (권한/인증)에러 핸들링은 (CustomAccessDeniedHandler, CustomAuthenticationEntryPoint) 으로 처리.
+
+
+
+
+

@@ -18,7 +18,7 @@ public class TyrApplication {
 	public static void startup() {
 		Runtime rt = Runtime.getRuntime();
 		try {
-			rt.exec("cmd /c start chrome.exe http://localhost:8080/hello");
+			rt.exec("cmd /c start chrome.exe http://localhost:8080/tyr/api/login");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
