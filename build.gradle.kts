@@ -21,6 +21,17 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	
+	//Spring Security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	// Thymeleaf (뷰 템플릿 엔진)
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

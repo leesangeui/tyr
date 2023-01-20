@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</meta>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<style type="text/css">
+    @import url("/style.css");
+</style>
+<div class="sidenav">
+    <div class="login-main-text">
+        <h2>Application<br> Login Page</h2>
+        <p>Login or register from here to access.</p>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-6 col-sm-12">
+        <div class="login-form">
+            <form id="loginForm" method="post">
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" class="form-control" placeholder="User Name" name="userName" id="userName" value="">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password" name="userPassword" id="userPassword" value="">
+                </div>
+                <button type="submit" class="btn btn-black" onclick="onSubmit();">Login</button>
+                <button type="submit" class="btn btn-secondary">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>
+
+<script type="text/javascript">
+
+    function onSubmit() {
+
+        //alert(document.getElementById("userName").value)
+        document.getElementById("loginForm").action = "/tyr/api/userAuthentication";
+        document.getElementById("loginForm").submit();
+    }
+
+</script>
